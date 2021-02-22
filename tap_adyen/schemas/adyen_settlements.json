@@ -1,0 +1,139 @@
+{
+  "selected": true,
+  "type": [
+    "null",
+    "object"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "company_account": {
+      "type": [
+        "string"
+      ]
+    },
+    "merchant_account": {
+      "type": [
+        "string"
+      ]
+    },
+    "psp_reference": {
+      "type": [
+        "string"
+      ]
+    },
+    "merchant_reference": {
+      "type": [
+        "string"
+      ]
+    },
+    "payment_method": {
+      "type": [
+        "string"
+      ]
+    },
+    "creation_date": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "format": "date-time"
+    },
+    "timezone": {
+      "type": [
+        "string"
+      ]
+    },
+    "type": {
+      "type": [
+        "string"
+      ]
+    },
+    "modification_reference": {
+      "type": [
+        "string"
+      ]
+    },
+    "gross_currency": {
+      "type": [
+        "string"
+      ]
+    },
+    "gross_debit": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "gross_credit": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "exchange_rate": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "net_currency": {
+      "type": [
+        "string"
+      ]
+    },
+    "net_debit": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "net_credit": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "commission": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "markup": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "scheme_fees": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "interchange": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "payment_method_variant": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "modification_merchant_reference": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "batch_number": {
+      "type": [
+        "null",
+        "integer"
+      ]
+    }
+  }
+}
