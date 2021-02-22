@@ -101,3 +101,12 @@ rsa-key
 tags
 singer-check-tap-data
 state.json
+
+ VScode
+.vscode
+
+# Python
+.mypy_cache
+
+# Config
+test_adyen_config.json
