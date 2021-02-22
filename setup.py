@@ -1,26 +1,28 @@
-#!/usr/bin/env python
-from setuptools import setup
+"""Setup."""
+# -*- coding: utf-8 -*-
+from setuptools import find_packages, setup
 
 setup(
-    name="tap-adyen",
-    version="0.1.0",
-    description="Singer.io tap for extracting data",
-    author="Stitch",
-    url="http://singer.io",
-    classifiers=["Programming Language :: Python :: 3 :: Only"],
-    py_modules=["tap_adyen"],
+    name='tap-adyen',
+    version='0.1.0',
+    description='Singer.io tap for extracting data from Adyen',
+    author='Stitch',
+    url='https://github.com/Yoast/singer-tap-adyen',
+    classifiers=['Programming Language :: Python :: 3 :: Only'],
+    py_modules=['tap_adyen'],
     install_requires=[
-        # NB: Pin these to a more specific version for tap reliability
-        "singer-python",
-        "requests",
+        'httpx[http2]~=0.16.1',
+        'singer-python~=5.10.0',
     ],
     entry_points="""
-    [console_scripts]
-    tap-adyen=tap_adyen:main
+        [console_scripts]
+        tap-adyen=tap_adyen:main
     """,
-    packages=["tap_adyen"],
-    package_data = {
-        "schemas": ["tap_adyen/schemas/*.json"]
+    packages=find_packages(),
+    package_data={
+        'tap_adyen': [
+            'schemas/*.json',
+        ],
     },
     include_package_data=True,
 )
