@@ -7,27 +7,26 @@
   "additionalProperties": false,
   "properties": {
     "company_account": {
-      "type": [
-        "string"
-      ]
+      "type": "string"
     },
     "merchant_account": {
-      "type": [
-        "string"
-      ]
+      "type": "string"
     },
     "psp_reference": {
       "type": [
+        "null",
         "string"
       ]
     },
     "merchant_reference": {
       "type": [
+        "null",
         "string"
       ]
     },
     "payment_method": {
       "type": [
+        "null",
         "string"
       ]
     },
@@ -39,24 +38,19 @@
       "format": "date-time"
     },
     "timezone": {
-      "type": [
-        "string"
-      ]
+      "type": "string"
     },
     "type": {
-      "type": [
-        "string"
-      ]
+      "type": "string"
     },
     "modification_reference": {
       "type": [
+        "null",
         "string"
       ]
     },
     "gross_currency": {
-      "type": [
-        "string"
-      ]
+      "type": "string"
     },
     "gross_debit": {
       "type": [
@@ -77,9 +71,7 @@
       ]
     },
     "net_currency": {
-      "type": [
-        "string"
-      ]
+      "type": "string"
     },
     "net_debit": {
       "type": [
@@ -123,16 +115,16 @@
         "string"
       ]
     },
-    "modification_merchant_reference": {
-      "type": [
-        "null",
-        "string"
-      ]
-    },
     "batch_number": {
       "type": [
         "null",
         "integer"
+      ]
+    },
+    "modification_merchant_reference": {
+      "type": [
+        "null",
+        "string"
       ]
     }
   }
