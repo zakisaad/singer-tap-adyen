@@ -1,19 +1,128 @@
 {
-    "type": ["null", "object"],
-    "additionalProperties": false,
-    "properties": {
-	"string_field": {
-	    "type": ["null", "string"]
-	},
-      	"datetime_field": {
-            "type": ["null", "string"],
-            "format": "date-time"
-	},
-  	"integer_field": {
-	    "type": ["null", "integer"]
-        },
-      	"double_field": {
-	    "type": ["null", "number"]
-        }
-    }
+	"selected": true,
+	"type": [
+		"null",
+		"object"
+	],
+	"additionalProperties": false,
+	"properties": {
+		"company_account": {
+			"type": "string"
+		},
+		"merchant_account": {
+			"type": "string"
+		},
+		"psp_reference": {
+			"type": "string"
+		},
+		"merchant_reference": {
+			"type": "string"
+		},
+		"payment_method": {
+			"type": [
+				"null",
+				"string"
+			]
+		},
+		"booking_date": {
+			"type": "string",
+			"format": "date-time"
+		},
+		"timezone": {
+			"type": "string"
+		},
+		"main_currency": {
+			"type": "string"
+		},
+		"main_amount": {
+			"type": "number"
+		},
+		"record_type": {
+			"type": "string"
+		},
+		"payment_currency": {
+			"type": "string"
+		},
+		"received": {
+			"type": "number"
+		},
+		"authorised": {
+			"type": "number"
+		},
+		"captured": {
+			"type": "number"
+		},
+		"settlement_currency": {
+			"type": [
+				"null",
+				"string"
+			]
+		},
+		"payable": {
+			"type": [
+				"null",
+				"number"
+			]
+		},
+		"commission": {
+			"type": [
+				"null",
+				"number"
+			]
+		},
+		"markup": {
+			"type": [
+				"null",
+				"number"
+			]
+		},
+		"scheme_fees": {
+			"type": [
+				"null",
+				"number"
+			]
+		},
+		"interchange": {
+			"type": [
+				"null",
+				"number"
+			]
+		},
+		"processing_fee_currency": {
+			"type": [
+				"null",
+				"string"
+			]
+		},
+		"processingfee": {
+			"type": [
+				"null",
+				"number"
+			]
+		},
+		"user_name": {
+			"type": [
+				"null",
+				"string"
+			]
+		},
+		"payment_method_variant": {
+			"type": [
+				"null",
+				"string"
+			]
+		},
+		"modification_merchant_reference": {
+			"type": [
+				"null",
+				"string"
+			]
+		},
+		"risk_premium": {
+			"type": [
+				"null",
+				"string"
+			]
+		}
+	}
 }
