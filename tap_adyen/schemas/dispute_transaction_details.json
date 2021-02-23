@@ -1,19 +1,189 @@
 {
-    "type": ["null", "object"],
-    "additionalProperties": false,
-    "properties": {
-	"string_field": {
-	    "type": ["null", "string"]
-	},
-      	"datetime_field": {
-            "type": ["null", "string"],
-            "format": "date-time"
-	},
-  	"integer_field": {
-	    "type": ["null", "integer"]
-        },
-      	"double_field": {
-	    "type": ["null", "number"]
-        }
-    }
+	"selected": true,
+	"type": [
+		"null",
+		"object"
+	],
+	"additionalProperties": false,
+	"properties": {
+		"company_account": {
+			"type": "string"
+		},
+		"merchant_account": {
+			"type": "string"
+		},
+		"psp_reference": {
+			"type": "string"
+		},
+		"merchant_reference": {
+			"type": "string"
+		},
+		"payment_method": {
+			"type": "string"
+		},
+		"record_date": {
+			"type": "string",
+			"format": "date-time"
+		},
+		"record_date_timeZone": {
+			"type": "string"
+		},
+		"dispute_currency": {
+			"type": "string"
+		},
+		"dispute_amount": {
+			"type": "number"
+		},
+		"record_type": {
+			"type": "string"
+		},
+		"dispute_psp_reference": {
+			"type":	"string"
+		},
+		"dispute_reason": {
+			"type":	"string"
+		},
+		"rfi_scheme_code": {
+			"type": [
+				"null",
+				"string"
+			]
+		},
+		"rfi_reason_code": {
+			"type": [
+				"null",
+				"string"
+			]
+		},
+		"cb_scheme_code": {
+			"type": "string"
+		},
+		"cb_reason_code": {
+			"type": "string"
+		},
+		"nof_scheme_code": {
+			"type": [
+				"null",
+				"number"
+			]
+		},
+		"nof_reason_code": {
+			"type": [
+				"null",
+				"string"
+			]
+		},
+		"payment_date": {
+			"type":	"string",
+			"format": "date-time"
+		},
+		"payment_date_timezone": {
+			"type": "string"
+		},
+		"payment_currency": {
+			"type": "string"
+		},
+		"payment_amount": {
+			"type": "number"
+		},
+		"dispute_date": {
+			"type": "string",
+			"format": "date-time"
+		},
+		"dispute_date_timezone": {
+			"type": "string"
+		},
+		"dispute_arn": {
+			"type":	"number"
+		},
+		"user_name": {
+			"type": "string"
+		},
+		"risk_scoring": {
+			"type": "number",
+			"format": "integer"
+		},
+		"shopper_interaction": {
+			"type": "string"
+		},
+		"shopper_name": {
+			"type": "string"
+		},
+		"shopper_email": {
+			"type": "string"
+		},
+		"shopper_reference": {
+			"type": "string"
+		},
+		"shopper_pan": {
+			"type": "string"
+		},
+		"iban": {
+			"type": [
+				"null",
+				"string"
+			]
+		},
+		"bic": {
+			"type": [
+				"null",
+				"string"
+			]
+		},
+		"shopper_ip": {
+			"type": [
+				"null",
+				"string"
+			]
+		},
+		"shopper_country": {
+			"type": [
+				"null",
+				"string"
+			]
+		},
+		"issuer_country": {
+			"type": "string"
+		},
+		"issuer_id": {
+			"type": "string"
+		},
+		"3d_directory_response": {
+			"type": [
+				"null",
+				"string"
+			]
+		},
+		"3d_authentication_response": {
+			"type": [
+				"null",
+				"string"
+			]
+		},
+		"cvc2_response": {
+			"type": "number"
+		},
+		"avs_response": {
+			"type": "number"
+		},
+		"auto_defense_dispute_auto_defended": {
+			"type": [
+				"null",
+				"string"
+			]
+		},
+		"dispute_end_date": {
+			"type": [
+				"null",
+				"string"
+			],
+			"format": "date-time"
+		},
+		"dispute_end_date_timezone": {
+			"type": [
+				"null",
+				"string"
+			]
+		}
+	}
 }
