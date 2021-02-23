@@ -12,6 +12,7 @@ setup(
     py_modules=['tap_adyen'],
     install_requires=[
         'httpx[http2]~=0.16.1',
+        'python-dateutil~=2.8.1',
         'singer-python~=5.10.0',
     ],
     entry_points="""
