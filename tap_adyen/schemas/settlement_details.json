@@ -31,10 +31,7 @@
       ]
     },
     "creation_date": {
-      "type": [
-        "null",
-        "string"
-      ],
+      "type": "string",
       "format": "date-time"
     },
     "timezone": {
@@ -118,8 +115,9 @@
     "batch_number": {
       "type": [
         "null",
-        "integer"
-      ]
+        "number"
+      ],
+      "format": "integer"
     },
     "modification_merchant_reference": {
       "type": [
