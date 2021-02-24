@@ -244,6 +244,20 @@ date_parser: partial = partial(parse_date, tzinfos=TIMEZONES)
 
 # Streams metadata
 STREAMS: MappingProxyType = MappingProxyType({
+    'dispute_transaction_details': {
+        'key_properties': 'tbd',
+        'replication_method': 'INCREMENTAL',
+        'replication_key': 'tbd',
+        'bookmark': 'tbd',
+        'mapping': {},
+    },
+    'payment_accounting': {
+        'key_properties': 'tbd',
+        'replication_method': 'INCREMENTAL',
+        'replication_key': 'tbd',
+        'bookmark': 'tbd',
+        'mapping': {},
+    },
     'settlement_details': {
         'key_properties': 'id',
         'replication_method': 'INCREMENTAL',
@@ -324,4 +338,5 @@ STREAMS: MappingProxyType = MappingProxyType({
             },
         },
     },
+
 })
