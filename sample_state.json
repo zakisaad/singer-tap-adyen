@@ -1,0 +1,13 @@
+{
+  "bookmarks": {
+    "dispute_transaction_details": {
+      "start_date": "2021-01-01"
+    },
+    "payment_accounting": {
+      "start_date": "2021-01-01"
+    },
+    "settlement_details": {
+      "batch": 1
+    }
+  }
+}
