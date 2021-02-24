@@ -89,17 +89,22 @@ def clean_row(row: dict, mapping: dict) -> dict:
     return cleaned
 
 
-def clean_settlement_details(row: dict) -> dict:
+def clean_settlement_details(row: dict, row_number: int) -> dict:
     """Clean settlement details.
 
     Arguments:
         row {dict} -- Input row
+        row_number {int} -- Row number, used to construct primary key
 
     Returns:
         dict -- Cleaned row
     """
     # Get the mapping from the STREAMS
     mapping: Optional[dict] = STREAMS['settlement_details'].get('mapping')
+
+    # Create primary key
+    number: str = str(row_number).rjust(10, '0')
+    row['id'] = int(row['Batch Number'] + number)
 
     # Add timezone to the date, so that the datetime parser includes it
     row['Creation Date'] = '{creation_date} {timezone}'.format(
