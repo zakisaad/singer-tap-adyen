@@ -3,7 +3,7 @@
 from decimal import Decimal
 from types import MappingProxyType
 
-from dateutil.parser import parse as parse_d
+from dateutil.parser import parse as parse_date
 
 # Streams metadata
 STREAMS: MappingProxyType = MappingProxyType({
@@ -29,7 +29,7 @@ STREAMS: MappingProxyType = MappingProxyType({
                 'map': 'payment_method', 'null': True,
             },
             'Creation Date': {
-                'map': 'creation_date', 'type': parse_d, 'null': True,
+                'map': 'creation_date', 'type': parse_date, 'null': True,
             },
             'TimeZone': {
                 'map': 'timezone', 'null': False,
