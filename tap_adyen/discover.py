@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 from singer import metadata
 from singer.catalog import Catalog, CatalogEntry
-from tap_paypal.schema import load_schemas
-from tap_paypal.streams import STREAMS
+from tap_adyen.schema import load_schemas
+from tap_adyen.streams import STREAMS
 
 
 def discover() -> Catalog:  # noqa: WPS210
