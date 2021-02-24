@@ -6,7 +6,7 @@ import singer
 from typing import Generator
 from tap_adyen.cleaners import clean_settlement_details
 from csv import DictReader
-from requests import get
+import httpx
 
 
 API_SCHEME: str = 'https://'
@@ -73,20 +73,21 @@ class Adyen(object):
             f'{batch_input}{API_FILE_EXTENTION}'
         )
 
-        self.logger.info('Downloading report from {url}')
+        self.logger.info('Downloading report from ' + url)
 
-        # Get Request to get the csv in string format
-        response = get(url, auth=(self.report_user, self.user_password))
+        # Get Request to get the csv in binary format
+        client: httpx.Client = httpx.Client(http2=True)
 
+        response: httpx._models.Response = client.get(  # noqa: WPS437
+            url,
+            auth=(self.report_user, self.user_password),
+        )
         # Check if it finds the report
         if response.status_code != 200:  # noqa: WPS432
             raise ValueError('Report not found')
 
-        # Decode CSV before splitlines
-        decoded_csv = response.content.decode('utf-8')
-
         # Put the split lines in a dictionary
-        settlements = DictReader(decoded_csv.splitlines(), delimiter=',')
+        settlements = DictReader(response.text.splitlines(), delimiter=',')
 
         # Clean dictionary and yield every settlement
         yield from (
