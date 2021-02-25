@@ -1,6 +1,7 @@
 """Cleaner functions."""
 # -*- coding: utf-8 -*-
 
+from types import MappingProxyType
 from typing import Any, Optional
 
 from tap_adyen.streams import STREAMS
@@ -118,3 +119,9 @@ def clean_settlement_details(row: dict, row_number: int) -> dict:
 
     # Else return the original row
     return row
+
+
+# Collect all cleaners
+CLEANERS: MappingProxyType = MappingProxyType({
+    'settlement_details': clean_settlement_details,
+})

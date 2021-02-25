@@ -9,6 +9,7 @@ from singer.catalog import Catalog, CatalogEntry
 
 from tap_adyen import tools
 from tap_adyen.adyen import Adyen
+from tap_adyen.cleaners import CLEANERS
 from tap_adyen.streams import STREAMS
 
 LOGGER: logging.RootLogger = singer.get_logger()
@@ -58,14 +59,24 @@ def sync(
 
         # Every stream has a corresponding method in the Adyen object e.g.:
         # The stream: settlement_details will call: adyen.settlement_details
-        tap_data: Callable = getattr(adyen, stream.tap_stream_id)
+        tap_urls: Callable = getattr(adyen, stream.tap_stream_id)
 
-        # The tap_data method yields rows of data from the API
-        # The state of the stream is used as kwargs for the method
+        # The tap_urls method yields urls to CSVs. The state of the stream is
+        # used as kwargs for the method.
         # E.g. if the state of the stream has a key 'start_date', it will be
         # used in the method as start_date='2021-01-01T00:00:00+0000'
-        for row in tap_data(**stream_state):
-            sync_record(stream, row, state)
+        for csv_url in tap_urls(**stream_state):
+
+            # Retrieve the cleaner function
+            cleaner: Optional[Callable] = CLEANERS.get(stream.tap_stream_id)
+
+            # Retrieve the csv
+            for row in adyen.get_csv(csv_url, cleaner):
+
+                # Sync the record
+                sync_record(stream, row, state)
+
+            # Set Bookmark
 
 
 def sync_record(stream: CatalogEntry, row: dict, state: dict) -> None:
