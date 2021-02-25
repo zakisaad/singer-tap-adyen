@@ -18,25 +18,24 @@ API_FILE_EXTENTION: str = '.csv'
 class Adyen(object):
     """Adyen API Client."""
 
-    def __init__(
+    def __init__(  # noqa: WPS211
         self,
         report_user: str,
-        company_account: str,
         user_password: str,
         merchant_account: str,
+        company_account: str,
         test: bool,
     ) -> None:
         """Initialize client.
 
         Arguments:
             report_user {str} -- Reporting User Username
-            company_account {str} -- Adyen Company Account
             user_password {str} -- Reporing User API Key
             merchant_account {str} -- Adyen Merchant Account
+            company_account {str} -- Adyen Company Account
             test {bool} -- determine if the live or test env needs to be used
         """
         self.report_user: str = report_user
-        self.company_account: str = company_account
         self.user_password: str = user_password
         self.merchant_account: str = merchant_account
         self.istest: bool = test
@@ -52,10 +51,7 @@ class Adyen(object):
         Arguments:
             batch_number {int} -- batch number to start generating urls from
 
-        Raises
-            StopIteration: When the generated url did not respond with code 200
-
-        Yields
+        Yields:
             url {str} -- (working) url of settlement detail reports
         """
         # Check what URL to use (test/live)
@@ -96,6 +92,7 @@ class Adyen(object):
         cleaner: Callable,
     ) -> Generator[dict, None, None]:
         """Download csv.
+
         Arguments:
             csv_url {str} -- The URL that points to the correct CSV file
 
