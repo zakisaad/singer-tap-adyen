@@ -11,6 +11,7 @@ import httpx
 
 API_SCHEME: str = 'https://'
 API_BASE_URL: str = 'ca-live.adyen.com/reports/download/MerchantAccount/'
+API_TEST_URL: str = 'ca-test.adyen.com/reports/download/MerchantAccount/'
 API_SETTLEMENT_REPORT_NAME: str = '/settlement_detail_report_batch_'
 API_FILE_EXTENTION: str = '.csv'
 
@@ -24,6 +25,7 @@ class Adyen(object):
         company_account: str,
         user_password: str,
         merchant_account: str,
+        test: bool,
     ) -> None:
         """Initialize client.
 
@@ -32,89 +34,97 @@ class Adyen(object):
             company_account {str} -- Adyen Company Account
             user_password {str} -- Reporing User API Key
             merchant_account {str} -- Adyen Merchant Account
+            test {bool} -- determine if the live or test env needs to be used
         """
         self.report_user: str = report_user
         self.company_account: str = company_account
         self.user_password: str = user_password
         self.merchant_account: str = merchant_account
+        self.istest: bool = test
 
         self.logger = singer.get_logger()
 
-
-    def settlement_details(self, batch_number: int):
-        # Start with batch numer
-        # while True
-            # Build url strinng
-            # .get = Download pagina
-            # .head = headers only
-            # If status_code == 200
-                # yield
-                # Batch +=1 
-            # else
-                # raise StopItt
-
-
-
-    def settlement_details_old(
+    def settlement_details(
         self,
-        **kwargs: dict,
-    ) -> Generator[dict, None, None]:
-        """Adyen settlement details report.
+        batch_number: int,
+    ) -> Generator[str, None, None]:
+        """Initialize client.
 
-        Raises:
-            ValueError: When the parameter start_batch is missing
+        Arguments:
+            batch_number {int} -- batch number to start generating urls from
+
+        Raises
+            StopIteration: When the generated url did not respond with code 200
+
+        Yields
+            url {str} -- (working) url of settlement detail reports
+        """
+        # Check what URL to use (test/live)
+        if self.istest is True:
+            api_url = API_TEST_URL
+        else:
+            api_url = API_BASE_URL
+
+        while True:
+            # Create the URL
+            url: str = (
+                f'{API_SCHEME}{api_url}'
+                f'{self.merchant_account}'
+                f'{API_SETTLEMENT_REPORT_NAME}'
+                f'{batch_number}{API_FILE_EXTENTION}'
+            )
+
+            # Check if the created URL returns a 200 status code
+            client: httpx.Client = httpx.Client(http2=True)
+            response: httpx._models.Response = client.head(  # noqa: WPS437
+                url,
+                auth=(self.report_user, self.user_password),
+            )
+
+            if response.status_code == 200:  # noqa: WPS432
+                self.logger.info(
+                    f'Found Report with number {batch_number}',
+                )
+                # Yield the URL
+                yield url
+                batch_number += 1
+            else:
+                break
+
+    def get_csv(
+        self,
+        csv_url: str,
+        cleaner: Callable,
+    ) -> Generator[dict, None, None]:
+        """Download csv.
+        Arguments:
+            csv_url {str} -- The URL that points to the correct CSV file
 
         Yields:
-            Generator[dict] -- Yields Adyen Settlement Details
+            Generator[dict] -- Yields Adyen CSV's
         """
-
-        self.logger.info('Stream Adyen Settlement Detail Report')
-
-        # Validate the batch_number value exist if not, raise error
-        batch_input: str = str(kwargs.get('batch_number', ''))
-
-        if not batch_input:
-            raise ValueError('The parameter batch_number is required.')
-
-        self.logger.info(
-            f'Retrieving transactions from batch number {batch_input}',
-        )
-
-        # Build URL
-        url: str = (
-            f'{API_SCHEME}{API_BASE_URL}'
-            f'{self.merchant_account}'
-            f'{API_SETTLEMENT_REPORT_NAME}'
-            f'{batch_input}{API_FILE_EXTENTION}'
-        )
-
-        self.logger.info('Downloading report from ' + url)
+        self.logger.info('Downloading report from ' + csv_url)
 
         # Get Request to get the csv in binary format
         client: httpx.Client = httpx.Client(http2=True)
 
         response: httpx._models.Response = client.get(  # noqa: WPS437
-            url,
+            csv_url,
             auth=(self.report_user, self.user_password),
         )
-        # Check if it finds the report
-        if response.status_code != 200:  # noqa: WPS432
-            raise ValueError('Report not found')
 
         # Put the split lines in a dictionary
         settlements = DictReader(response.text.splitlines(), delimiter=',')
 
         # Clean dictionary and yield every settlement
-        yield from (
-            clean_settlement_details(settlement, row)
-            for row, settlement in enumerate(settlements)
-        )
+        if cleaner:
+            yield from (
+                cleaner(settlement, row_number)
+                for row_number, settlement in enumerate(settlements)
+            )
+        else:
+            yield from (
+                settlement
+                for settlement in settlements
+            )
         self.logger.info('Finished: Adyen settlement_details')
-
-
-    def get_csv(self, csv_url: str, cleaner: Callable):
-        # Get CSV
-        # Dict Reader
-        # If cleaner
-            #    Yield cleaner(settlement, row_number)
-        # else yield settlement
