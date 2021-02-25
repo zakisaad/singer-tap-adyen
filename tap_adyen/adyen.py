@@ -21,18 +21,18 @@ class Adyen(object):
     def __init__(  # noqa: WPS211
         self,
         report_user: str,
+        company_account: str,
         user_password: str,
         merchant_account: str,
-        company_account: str,
         test: bool,
     ) -> None:
         """Initialize client.
 
         Arguments:
             report_user {str} -- Reporting User Username
+            company_account {str} -- Adyen Company Account
             user_password {str} -- Reporing User API Key
             merchant_account {str} -- Adyen Merchant Account
-            company_account {str} -- Adyen Company Account
             test {bool} -- determine if the live or test env needs to be used
         """
         self.report_user: str = report_user
@@ -75,16 +75,18 @@ class Adyen(object):
                 url,
                 auth=(self.report_user, self.user_password),
             )
-
             if response.status_code == 200:  # noqa: WPS432
-                self.logger.info(
-                    f'Found Report with number {batch_number}',
-                )
+                self.logger.info(f'Found: Report {batch_number}')
                 # Yield the URL
                 yield url
                 batch_number += 1
-            else:
+            elif response.status_code == 404:  # noqa: WPS432
+                self.logger.debug(f'No report number {batch_number} found')
                 break
+            else:
+                self.logger.critical('Unexpected status code')
+                response.raise_for_status()
+        self.logger.info('Finished Settlement Detail Reports')
 
     def get_csv(
         self,
@@ -99,7 +101,7 @@ class Adyen(object):
         Yields:
             Generator[dict] -- Yields Adyen CSV's
         """
-        self.logger.info('Downloading report from ' + csv_url)
+        self.logger.info(f'Downloading: report {csv_url}')
 
         # Get Request to get the csv in binary format
         client: httpx.Client = httpx.Client(http2=True)
@@ -108,6 +110,11 @@ class Adyen(object):
             csv_url,
             auth=(self.report_user, self.user_password),
         )
+
+        # If the status is 200 raise the status
+        if response.status_code != 200:  # noqa: WPS432
+            self.logger.critical('Unexpected status code')
+            response.raise_for_status()
 
         # Put the split lines in a dictionary
         settlements = DictReader(response.text.splitlines(), delimiter=',')
@@ -118,9 +125,10 @@ class Adyen(object):
                 cleaner(settlement, row_number)
                 for row_number, settlement in enumerate(settlements)
             )
+        # Return every settlement if no cleaner exists
         else:
             yield from (
                 settlement
                 for settlement in settlements
             )
-        self.logger.info('Finished: Adyen settlement_details')
+        self.logger.info(f'Finished: report {csv_url}')
