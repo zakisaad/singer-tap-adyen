@@ -2,12 +2,11 @@
 # -*- coding: utf-8 -*-
 
 
-import singer
-from typing import Callable, Generator
-from tap_adyen.cleaners import clean_settlement_details
 from csv import DictReader
-import httpx
+from typing import Callable, Generator
 
+import httpx
+import singer
 
 API_SCHEME: str = 'https://'
 API_BASE_URL: str = 'ca-live.adyen.com/reports/download/MerchantAccount/'
