@@ -91,6 +91,23 @@ def clean_row(row: dict, mapping: dict) -> dict:
     return cleaned
 
 
+def clean_dispute_transaction_details(
+    row: dict,
+    file_date: date,
+    row_number: int,
+) -> dict:
+    """Clean dispute transaction details.
+
+    Arguments:
+        row {dict} -- Input row
+        file_date {date} -- File date, used to construct primary key
+        row_number {int} -- Row number, used to construct primary key
+
+    Returns:
+        dict -- Cleaned row
+    """
+
+
 def clean_payment_accounting(
     row: dict,
     file_date: date,

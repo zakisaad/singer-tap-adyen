@@ -1,7 +1,7 @@
 """Streams metadata."""
 # -*- coding: utf-8 -*-
+from datetime import datetime
 from decimal import Decimal
-from functools import partial
 from types import MappingProxyType
 
 from dateutil.parser import parse as parse_date
@@ -238,8 +238,19 @@ TIMEZONES: MappingProxyType = MappingProxyType({
     'Z': 0,
 })
 
-# Helper function to parse timezones correctly in strings
-date_parser: partial = partial(parse_date, tzinfos=TIMEZONES)
+
+def date_parser(input_date: str) -> str:
+    """Help function to parse timezones correctly in strings.
+
+    Arguments:
+        input_date {str} -- Input date as string
+
+    Returns:
+        {str} -- Date in isoformat
+    """
+    parsed_date: datetime = parse_date(input_date, tzinfos=TIMEZONES)
+    return parsed_date.isoformat()
+
 
 # Streams metadata
 STREAMS: MappingProxyType = MappingProxyType({
@@ -345,8 +356,8 @@ STREAMS: MappingProxyType = MappingProxyType({
     'settlement_details': {
         'key_properties': 'id',
         'replication_method': 'INCREMENTAL',
-        'replication_key': 'tbd',
-        'bookmark': 'tbd',
+        'replication_key': 'id',
+        'bookmark': 'batch_number',
         'mapping': {
             'id': {
                 'map': 'id', 'null': False,

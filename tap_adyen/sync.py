@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import logging
 from datetime import datetime, timezone
-from typing import Callable, Optional
+from typing import Callable, Optional, Union
 
 import singer
 from singer.catalog import Catalog, CatalogEntry
@@ -15,7 +15,7 @@ from tap_adyen.streams import STREAMS
 LOGGER: logging.RootLogger = singer.get_logger()
 
 
-def sync(
+def sync(  # noqa: WPS210
     adyen: Adyen,
     state: dict,
     catalog: Catalog,
@@ -70,47 +70,50 @@ def sync(
             # Retrieve the cleaner function
             cleaner: Optional[Callable] = CLEANERS.get(stream.tap_stream_id)
 
+            bookmark_value: Optional[Union[str, int]] = None
             # Retrieve the csv
             for row in adyen.get_csv(csv_url, cleaner):
 
-                # Sync the record
-                sync_record(stream, row, state)
+                # Write a row to the stream
+                singer.write_record(
+                    stream.tap_stream_id,
+                    row,
+                    time_extracted=datetime.now(timezone.utc),
+                )
+                # Update bookmark value
+                bookmark_value = tools.retrieve_bookmark_with_path(
+                    stream.replication_key,
+                    row,
+                )
 
-            # Set Bookmark
+            # Update bookmark
+            update_bookmark(stream, bookmark_value, state)
 
 
-def sync_record(stream: CatalogEntry, row: dict, state: dict) -> None:
-    """Sync the record.
+def update_bookmark(
+    stream: CatalogEntry,
+    bookmark_value: Optional[Union[str, int]],
+    state: dict,
+) -> None:
+    """Update the bookmark.
 
     Arguments:
         stream {CatalogEntry} -- Stream catalog
-        row {dict} -- Record
+        bookmark_value {Optional[Union[str, int]]} -- Record
         state {dict} -- State
     """
     # Retrieve the value of the bookmark
-    bookmark: Optional[str] = tools.retrieve_bookmark_with_path(
-        stream.replication_key,
-        row,
-    )
-
-    # Write a row to the stream
-    singer.write_record(
-        stream.tap_stream_id,
-        row,
-        time_extracted=datetime.now(timezone.utc),
-    )
-
-    if bookmark:
+    if bookmark_value:
         # Save the bookmark to the state
         singer.write_bookmark(
             state,
             stream.tap_stream_id,
             STREAMS[stream.tap_stream_id]['bookmark'],
-            bookmark,
+            bookmark_value,
         )
 
-        # Clear currently syncing
-        tools.clear_currently_syncing(state)
+    # Clear currently syncing
+    tools.clear_currently_syncing(state)
 
-        # Write the bootmark
-        singer.write_state(state)
+    # Write the bootmark
+    singer.write_state(state)
