@@ -3,6 +3,7 @@
 
 
 from csv import DictReader
+from datetime import datetime, timedelta
 from typing import Callable, Generator
 
 import httpx
@@ -12,6 +13,8 @@ API_SCHEME: str = 'https://'
 API_BASE_URL: str = 'ca-live.adyen.com/reports/download/MerchantAccount/'
 API_TEST_URL: str = 'ca-test.adyen.com/reports/download/MerchantAccount/'
 API_SETTLEMENT_REPORT_NAME: str = '/settlement_detail_report_batch_'
+API_PAYMENT_REPORT_NAME: str = '/payments_accounting_report_'
+API_DISPUTE_REPORT_NAME: str = '/settlement_detail_report_batch_'
 API_FILE_EXTENTION: str = '.csv'
 
 
@@ -87,6 +90,56 @@ class Adyen(object):
                 self.logger.critical('Unexpected status code')
                 response.raise_for_status()
         self.logger.info('Finished Settlement Detail Reports')
+
+    def payment_accounting(
+        self,
+        start_date: str,
+    ) -> Generator[str, None, None]:
+        """Initialize client.
+
+        Arguments:
+            start_date {str} -- starting date to start generating urls from
+
+        Yields:
+            url {str} -- (working) url of payment accounting reports
+        """
+        # Check what URL to use (test/live)
+        if self.istest is True:
+            api_url = API_TEST_URL
+        else:
+            api_url = API_BASE_URL
+
+        # Parse start_date string to date
+        parsed_date = datetime.strptime(start_date, '%Y-%m-%d')
+        
+        while True:
+            date = parsed_date.strftime('%Y_%m_%d')
+            # Create the URL
+            url: str = (
+                f'{API_SCHEME}{api_url}'
+                f'{self.merchant_account}'
+                f'{API_PAYMENT_REPORT_NAME}'
+                f'{date}{API_FILE_EXTENTION}'
+            )
+
+            # Check if the created URL returns a 200 status code
+            client: httpx.Client = httpx.Client(http2=True)
+            response: httpx._models.Response = client.head(  # noqa: WPS437
+                url,
+                auth=(self.report_user, self.user_password),
+            )
+            if response.status_code == 200:  # noqa: WPS432
+                self.logger.info(f'Found: Report {date}')
+                # Yield the URL
+                yield url
+                parsed_date = parsed_date + timedelta(days=1)
+            elif response.status_code == 404:  # noqa: WPS432
+                self.logger.debug(f'No report number {date} found')
+                break
+            else:
+                self.logger.critical('Unexpected status code')
+                response.raise_for_status()
+        self.logger.info('Finished Payment Accounting Reports')
 
     def get_csv(
         self,
