@@ -106,6 +106,42 @@ def clean_dispute_transaction_details(
     Returns:
         dict -- Cleaned row
     """
+    # Get the mapping from the STREAMS
+    mapping: Optional[dict] = STREAMS['dispute_transaction_details'].get(
+        'mapping',
+    )
+
+    # Create primary key
+    date_string: str = '{date:%Y%m%d}'.format(date=file_date)  # noqa: WPS323
+    number: str = str(row_number).rjust(10, '0')
+    row['id'] = int(date_string + number)
+
+    # Add timezone to the date, so that the datetime parser includes it
+    row['Record Date'] = '{record_date} {record_date_timezone}'.format(
+        record_date=row.get('Record Date', ''),
+        record_date_timezone=row.get('Record Date TimeZone', ''),
+    )
+    row['Payment Date'] = '{payment_date} {payment_date_timezone}'.format(
+        payment_date=row.get('Payment Date', ''),
+        payment_date_timezone=row.get('Payment Date TimeZone', ''),
+    )
+    row['Dispute Date'] = '{dispute_date} {dispute_date_timezone}'.format(
+        dispute_date=row.get('Dispute Date', ''),
+        dispute_date_timezone=row.get('Dispute Date TimeZone', ''),
+    )
+    row['Dispute End Date'] = (
+        '{dispute_end_date} {dispute_end_date_timezone}'.format(
+            dispute_end_date=row.get('Dispute End Date', ''),
+            dispute_end_date_timezone=row.get('Dispute End Date TimeZone', ''),
+        )
+    )
+
+    # If a mapping has been defined in STREAMS, apply it
+    if mapping:
+        return clean_row(row, mapping)
+
+    # Else return the original row
+    return row
 
 
 def clean_payment_accounting(

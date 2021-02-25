@@ -259,7 +259,146 @@ STREAMS: MappingProxyType = MappingProxyType({
         'replication_method': 'INCREMENTAL',
         'replication_key': 'tbd',
         'bookmark': 'tbd',
-        'mapping': {},
+        'mapping': {
+            'id': {
+                'map': 'id', 'null': False,
+            },
+            'Company Account': {
+                'map': 'company_account', 'null': False,
+            },
+            'Merchant Account': {
+                'map': 'merchant_account', 'null': False,
+            },
+            'Psp Reference': {
+                'map': 'psp_reference', 'null': True,
+            },
+            'Merchant Reference': {
+                'map': 'merchant_reference', 'null': True,
+            },
+            'Payment Method': {
+                'map': 'payment_method', 'null': True,
+            },
+            'Record Date': {
+                'map': 'record_date', 'type': date_parser, 'null': True,
+            },
+            'Record Date TimeZone': {
+                'map': 'record_date_timezone', 'null': False,
+            },
+            'Dispute Currency': {
+                'map': 'dispute_currency', 'null': False,
+            },
+            'Dispute Amount': {
+                'map': 'dispute_amount', 'type': Decimal, 'null': True,
+            },
+            'Record Type': {
+                'map': 'record_type', 'null': True,
+            },
+            'Dispute PSP Reference': {
+                'map': 'dispute_psp_reference', 'null': True,
+            },
+            'Dispute Reason': {
+                'map': 'dispute_reason', 'null': True,
+            },
+            'RFI Scheme Code': {
+                'map': 'rfi_scheme_code', 'null': True,
+            },
+            'RFI Reason Code': {
+                'map': 'rfi_reason_code', 'null': True,
+            },
+            'CB Scheme Code': {
+                'map': 'cb_scheme_code', 'null': True,
+            },
+            'CB Reason Code': {
+                'map': 'cb_reason_code', 'null': True,
+            },
+            'NoF Scheme Code': {
+                'map': 'nof_scheme_code', 'null': True,
+            },
+            'NoF Reason Code': {
+                'map': 'nof_reason_code', 'null': True,
+            },
+            'Payment Date': {
+                'map': 'payment_date', 'type': date_parser, 'null': True,
+            },
+            'Payment Date TimeZone': {
+                'map': 'payment_date_timezone', 'null': True,
+            },
+            'Payment Currency': {
+                'map': 'payment_currency', 'null': True,
+            },
+            'Payment Amount': {
+                'map': 'payment_amount', 'type': Decimal, 'null': True,
+            },
+            'Dispute Date': {
+                'map': 'dispute_date', 'type': date_parser, 'null': True,
+            },
+            'Dispute Date TimeZone': {
+                'map': 'dispute_date_timezone', 'null': True,
+            },
+            'Dispute ARN': {
+                'map': 'dispute_arn', 'null': True,
+            },
+            'User Name': {
+                'map': 'user_name', 'null': True,
+            },
+            'Risk Scoring': {
+                'map': 'risk_scoring', 'type': int, 'null': True,
+            },
+            'Shopper Interaction': {
+                'map': 'shopper_interaction', 'null': True,
+            },
+            'Shopper Name': {
+                'map': 'shopper_name', 'null': True,
+            },
+            'Shopper Email': {
+                'map': 'shopper_email', 'null': True,
+            },
+            'Shopper Reference': {
+                'map': 'shopper_referennce', 'null': True,
+            },
+            'Shopper PAN': {
+                'map': 'shopper_pan', 'null': True,
+            },
+            'Iban': {
+                'map': 'iban', 'null': True,
+            },
+            'Bic': {
+                'map': 'bic', 'null': True,
+            },
+            'Shopper IP': {
+                'map': 'shopper_ip', 'null': True,
+            },
+            'Shopper Country': {
+                'map': 'shopper_country', 'null': True,
+            },
+            'Issuer Country': {
+                'map': 'issuer_country', 'null': True,
+            },
+            'Issuer Id': {
+                'map': 'issuer_id', 'null': True,
+            },
+            '3D Directory Response': {
+                'map': '3d_directory_response', 'null': True,
+            },
+            '3D Authentication Response': {
+                'map': '3d_authentication_response', 'null': True,
+            },
+            'CVC2 Response': {
+                'map': 'cvc2_response', 'null': True,
+            },
+            'AVS Response': {
+                'map': 'avs_response', 'null': True,
+            },
+            'Dispute Auto Defended': {
+                'map': 'dispute_auto_defended', 'type': bool, 'null': True,
+            },
+            'Dispute End Date': {
+                'map': 'dispute_end_date', 'type': date_parser, 'null': True,
+            },
+            'Dispute End Date TimeZone': {
+                'map': 'dispute_end_date_timezone', 'null': True,
+            },
+        },
     },
     'payment_accounting': {
         'key_properties': 'tbd',

@@ -9,7 +9,7 @@
 		"id": {
 			"type": "number",
 			"format": "integer"
-		  },
+		},
 		"company_account": {
 			"type": "string"
 		},

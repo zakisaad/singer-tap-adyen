@@ -6,6 +6,10 @@
 	],
 	"additionalProperties": false,
 	"properties": {
+		"id": {
+			"type": "number",
+			"format": "integer"
+		},
 		"company_account": {
 			"type": "string"
 		},
@@ -25,7 +29,7 @@
 			"type": "string",
 			"format": "date-time"
 		},
-		"record_date_timeZone": {
+		"record_date_timezone": {
 			"type": "string"
 		},
 		"dispute_currency": {
@@ -166,10 +170,10 @@
 		"avs_response": {
 			"type": "number"
 		},
-		"auto_defense_dispute_auto_defended": {
+		"dispute_auto_defended": {
 			"type": [
 				"null",
-				"string"
+				"bool"
 			]
 		},
 		"dispute_end_date": {
