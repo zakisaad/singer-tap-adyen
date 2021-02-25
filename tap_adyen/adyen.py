@@ -91,7 +91,7 @@ class Adyen(object):
 
         # Clean dictionary and yield every settlement
         yield from (
-            clean_settlement_details(settlement)
-            for settlement in settlements
+            clean_settlement_details(settlement, row)
+            for row, settlement in enumerate(settlements)
         )
         self.logger.info('Finished: Adyen settlement_details')
