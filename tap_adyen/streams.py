@@ -241,7 +241,6 @@ TIMEZONES: MappingProxyType = MappingProxyType({
 # Helper function to parse timezones correctly in strings
 date_parser: partial = partial(parse_date, tzinfos=TIMEZONES)
 
-
 # Streams metadata
 STREAMS: MappingProxyType = MappingProxyType({
     'dispute_transaction_details': {
@@ -338,5 +337,4 @@ STREAMS: MappingProxyType = MappingProxyType({
             },
         },
     },
-
 })
