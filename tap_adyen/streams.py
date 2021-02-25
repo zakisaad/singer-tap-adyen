@@ -295,7 +295,7 @@ STREAMS: MappingProxyType = MappingProxyType({
                 'map': 'modification_reference', 'null': True,
             },
             'Gross Currency': {
-                'map': 'gross_currency', 'null': False,
+                'map': 'gross_currency', 'null': True,
             },
             'Gross Debit (GC)': {
                 'map': 'gross_debit', 'type': Decimal, 'null': True,

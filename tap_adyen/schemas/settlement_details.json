@@ -72,7 +72,10 @@
       ]
     },
     "net_currency": {
-      "type": "string"
+      "type": [
+        "null",
+        "string"
+      ]
     },
     "net_debit": {
       "type": [
