@@ -1,6 +1,7 @@
 """Cleaner functions."""
 # -*- coding: utf-8 -*-
 
+from datetime import date
 from types import MappingProxyType
 from typing import Any, Optional
 
@@ -45,7 +46,7 @@ def to_type_or_null(
             )
 
     # If the input_value is equal to None and Nullable is True
-    elif nullable:
+    elif not input_value and nullable:
         # Convert '', {}, [] to None
         return None
 
@@ -88,6 +89,43 @@ def clean_row(row: dict, mapping: dict) -> dict:
         )
 
     return cleaned
+
+
+def clean_payment_accounting(
+    row: dict,
+    file_date: date,
+    row_number: int,
+) -> dict:
+    """Clean payment accounting.
+
+    Arguments:
+        row {dict} -- Input row
+        file_date {date} -- File date, used to construct primary key
+        row_number {int} -- Row number, used to construct primary key
+
+    Returns:
+        dict -- Cleaned row
+    """
+    # Get the mapping from the STREAMS
+    mapping: Optional[dict] = STREAMS['payment_accounting'].get('mapping')
+
+    # Create primary key
+    date_string: str = '{date:%Y%m%d}'.format(date=file_date)  # noqa: WPS323
+    number: str = str(row_number).rjust(10, '0')
+    row['id'] = int(date_string + number)
+
+    # Add timezone to the date, so that the datetime parser includes it
+    row['Booking Date'] = '{booking_date} {timezone}'.format(
+        booking_date=row.get('Booking Date', ''),
+        timezone=row.get('TimeZone', ''),
+    )
+
+    # If a mapping has been defined in STREAMS, apply it
+    if mapping:
+        return clean_row(row, mapping)
+
+    # Else return the original row
+    return row
 
 
 def clean_settlement_details(row: dict, row_number: int) -> dict:

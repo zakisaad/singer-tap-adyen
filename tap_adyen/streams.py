@@ -255,7 +255,92 @@ STREAMS: MappingProxyType = MappingProxyType({
         'replication_method': 'INCREMENTAL',
         'replication_key': 'tbd',
         'bookmark': 'tbd',
-        'mapping': {},
+        'mapping': {
+            'id': {
+                'map': 'id', 'null': False,
+            },
+            'Company Account': {
+                'map': 'company_account', 'null': False,
+            },
+            'Merchant Account': {
+                'map': 'merchant_account', 'null': False,
+            },
+            'Psp Reference': {
+                'map': 'psp_reference', 'null': True,
+            },
+            'Merchant Reference': {
+                'map': 'merchant_reference', 'null': True,
+            },
+            'Payment Method': {
+                'map': 'payment_method', 'null': True,
+            },
+            'Booking Date': {
+                'map': 'booking_date', 'type': date_parser, 'null': True,
+            },
+            'TimeZone': {
+                'map': 'timezone', 'null': False,
+            },
+            'Main Currency': {
+                'map': 'main_currency', 'null': True,
+            },
+            'Main Amount': {
+                'map': 'main_amount', 'type': Decimal, 'null': True,
+            },
+            'Record Type': {
+                'map': 'record_type', 'null': True,
+            },
+            'Payment Currency': {
+                'map': 'payment_currency', 'null': True,
+            },
+            'Received (PC)': {
+                'map': 'received', 'type': Decimal, 'null': True,
+            },
+            'Authorised (PC)': {
+                'map': 'authorised', 'type': Decimal, 'null': True,
+            },
+            'Captured (PC)': {
+                'map': 'captured', 'type': Decimal, 'null': True,
+            },
+            'Settlement Currency': {
+                'map': 'settlement_currency', 'null': True,
+            },
+            'Payable (SC)': {
+                'map': 'payable', 'type': Decimal, 'null': True,
+            },
+            'Commission (SC)': {
+                'map': 'commission', 'type': Decimal, 'null': True,
+            },
+            'Markup (SC)': {
+                'map': 'markup', 'type': Decimal, 'null': True,
+            },
+            'Scheme Fees (SC)': {
+                'map': 'scheme_fees', 'type': Decimal, 'null': True,
+            },
+            'Interchange (SC)': {
+                'map': 'interchange', 'type': Decimal, 'null': True,
+            },
+            'Processing Fee Currency': {
+                'map': 'processing_fee_currency', 'null': True,
+            },
+            'Processing Fee (FC)': {
+                'map': 'processing_fee', 'type': Decimal, 'null': True,
+            },
+            'User Name': {
+                'map': 'user_name', 'null': True,
+            },
+            'Payment Method Variant': {
+                'map': 'payment_method_variant', 'null': True,
+            },
+            'Modification Merchant Reference': {
+                'map': 'modification_merchant_reference', 'null': True,
+            },
+            'Network Token Used': {
+                'map': 'network_token_used', 'type': bool, 'null': True,
+            },
+            'Network Token Available': {
+                'map': 'network_token_available', 'type': bool, 'null': True,
+            },
+        },
     },
     'settlement_details': {
         'key_properties': 'id',

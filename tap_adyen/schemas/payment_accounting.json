@@ -6,6 +6,10 @@
 	],
 	"additionalProperties": false,
 	"properties": {
+		"id": {
+			"type": "number",
+			"format": "integer"
+		  },
 		"company_account": {
 			"type": "string"
 		},
@@ -94,7 +98,7 @@
 				"string"
 			]
 		},
-		"processingfee": {
+		"processing_fee": {
 			"type": [
 				"null",
 				"number"
@@ -118,7 +122,13 @@
 				"string"
 			]
 		},
-		"risk_premium": {
+		"network_token_available": {
+			"type": [
+				"null",
+				"string"
+			]
+		},
+		"network_token_used": {
 			"type": [
 				"null",
 				"string"
