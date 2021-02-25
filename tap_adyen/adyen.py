@@ -3,7 +3,7 @@
 
 
 import singer
-from typing import Generator
+from typing import Callable, Generator
 from tap_adyen.cleaners import clean_settlement_details
 from csv import DictReader
 import httpx
@@ -40,7 +40,22 @@ class Adyen(object):
 
         self.logger = singer.get_logger()
 
-    def settlement_details(
+
+    def settlement_details(self, batch_number: int):
+        # Start with batch numer
+        # while True
+            # Build url strinng
+            # .get = Download pagina
+            # .head = headers only
+            # If status_code == 200
+                # yield
+                # Batch +=1 
+            # else
+                # raise StopItt
+
+
+
+    def settlement_details_old(
         self,
         **kwargs: dict,
     ) -> Generator[dict, None, None]:
@@ -95,3 +110,11 @@ class Adyen(object):
             for row, settlement in enumerate(settlements)
         )
         self.logger.info('Finished: Adyen settlement_details')
+
+
+    def get_csv(self, csv_url: str, cleaner: Callable):
+        # Get CSV
+        # Dict Reader
+        # If cleaner
+            #    Yield cleaner(settlement, row_number)
+        # else yield settlement
