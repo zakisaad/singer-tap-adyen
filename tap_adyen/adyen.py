@@ -10,14 +10,14 @@ import httpx
 import singer
 
 API_SCHEME: str = 'https://'
-API_BASE_URL: str = 'ca-live.adyen.com/reports/download/MerchantAccount/'
-API_BASE_URL_COMPANY: str = 'ca-live.adyen.com/reports/download/Company/'
-API_TEST_URL: str = 'ca-test.adyen.com/reports/download/MerchantAccount/'
-API_TEST_URL_COMPANY: str = 'ca-test.adyen.com/reports/download/Company/'
-API_SETTLEMENT_REPORT_NAME: str = '/settlement_detail_report_batch_'
-API_PAYMENT_REPORT_NAME: str = '/payments_accounting_report_'
-API_DISPUTE_REPORT_NAME: str = '/dispute_report_'
-API_FILE_EXTENTION: str = '.csv'
+API_BASE_URL_LIVE: str = 'ca-live.adyen.com'
+API_BASE_URL_TEST: str = 'ca-test.adyen.com'
+API_PATH_REPORTS: str = '/reports/download'
+API_PATH_REPORTS_COMPANY: str = '/Company/:company:'
+API_PATH_REPORTS_MERCHANT: str = '/MerchantAccount/:merchant:'
+API_PATH_DISPUTE_REPORT: str = '/dispute_report_:date:.csv'
+API_PATH_PAYMENT_REPORT: str = '/payments_accounting_report_:date:.csv'
+API_PATH_SETTLEMENT_REPORT: str = '/settlement_detail_report_batch_:batch:.csv'
 
 
 class Adyen(object):
@@ -60,15 +60,26 @@ class Adyen(object):
         Yields:
             url {str} -- (working) url of settlement detail reports
         """
+
         # Check what URL to use (test/live)
-        api_url = self.iftest(self.istest)
+        self.base_url = API_BASE_URL_TEST if self.istest else API_BASE_URL_LIVE
+
+        # Replace Placeholder in reports path
+        merchant = API_PATH_REPORTS_MERCHANT.replace(
+            ':merchant:',
+            self.merchant_account,
+        )
         while True:
+            report = API_PATH_SETTLEMENT_REPORT.replace(
+                ':batch:',
+                str(batch_number),
+            )
             # Create the URL
             url: str = (
-                f'{API_SCHEME}{api_url}'
-                f'{self.merchant_account}'
-                f'{API_SETTLEMENT_REPORT_NAME}'
-                f'{batch_number}{API_FILE_EXTENTION}'
+                f'{API_SCHEME}{self.base_url}'
+                f'{API_PATH_REPORTS}'
+                f'{merchant}'
+                f'{report}'
             )
 
             # Check if the created URL returns a 200 status code
@@ -99,22 +110,28 @@ class Adyen(object):
             url {str} -- (working) url of dispute transaction reports
         """
         # Check what URL to use (test/live)
-        if self.istest is True:
-            api_url = API_TEST_URL_COMPANY
-        else:
-            api_url = API_BASE_URL_COMPANY
+        self.base_url = API_BASE_URL_TEST if self.istest else API_BASE_URL_LIVE
 
         # Parse start_date string to date
         parsed_date = datetime.strptime(start_date, '%Y-%m-%d')
 
+        # Replace Placeholder in reports path
+        company = API_PATH_REPORTS_COMPANY.replace(
+            ':company:',
+            self.company_account,
+        )
         while True:
             date = parsed_date.strftime('%Y_%m_%d')
+            report = API_PATH_DISPUTE_REPORT.replace(
+                ':date:',
+                str(date),
+            )
             # Create the URL
             url: str = (
-                f'{API_SCHEME}{api_url}'
-                f'{self.company_account}'
-                f'{API_DISPUTE_REPORT_NAME}'
-                f'{date}{API_FILE_EXTENTION}'
+                f'{API_SCHEME}{self.base_url}'
+                f'{API_PATH_REPORTS}'
+                f'{company}'
+                f'{report}'
             )
             # Check if the created URL returns a 200 status code
             response = self.head_request(url)
@@ -144,19 +161,29 @@ class Adyen(object):
             url {str} -- (working) url of payment accounting reports
         """
         # Check what URL to use (test/live)
-        api_url = self.iftest(self.istest)
+        self.base_url = API_BASE_URL_TEST if self.istest else API_BASE_URL_LIVE
+
+        # Replace Placeholder in reports path
+        merchant = API_PATH_REPORTS_MERCHANT.replace(
+            ':merchant:',
+            self.merchant_account,
+        )
 
         # Parse start_date string to date
         parsed_date = datetime.strptime(start_date, '%Y-%m-%d')
 
         while True:
             date = parsed_date.strftime('%Y_%m_%d')
+            report = API_PATH_PAYMENT_REPORT.replace(
+                ':date:',
+                str(date),
+            )
             # Create the URL
             url: str = (
-                f'{API_SCHEME}{api_url}'
-                f'{self.merchant_account}'
-                f'{API_PAYMENT_REPORT_NAME}'
-                f'{date}{API_FILE_EXTENTION}'
+                f'{API_SCHEME}{self.base_url}'
+                f'{API_PATH_REPORTS}'
+                f'{merchant}'
+                f'{report}'
             )
 
             # Check if the created URL returns a 200 status code
@@ -234,17 +261,3 @@ class Adyen(object):
             auth=(self.report_user, self.user_password),
         )
         return response
-
-    def iftest(self, test: bool):
-        """Check what url to use
-
-        Arguments:
-            test {bool} -- value that determines if to use the test environment
-
-        Returns:
-            api url {str} -- url of correct url to use
-        """
-        if test is True:
-            return API_TEST_URL
-        if test is False:
-            return API_BASE_URL
