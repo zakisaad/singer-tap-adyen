@@ -214,5 +214,7 @@ def clean_settlement_details(row: dict, row_number: int) -> dict:
 
 # Collect all cleaners
 CLEANERS: MappingProxyType = MappingProxyType({
+    'dispute_transaction_details': clean_dispute_transaction_details,
+    'payment_accounting': clean_payment_accounting,
     'settlement_details': clean_settlement_details,
 })
