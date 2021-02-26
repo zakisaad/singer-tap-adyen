@@ -71,7 +71,7 @@ def sync(  # noqa: WPS210
             cleaner: Optional[Callable] = CLEANERS.get(stream.tap_stream_id)
 
             # Retrieve the csv
-            for row in adyen.get_csv(csv_url, cleaner):
+            for row in adyen.retrieve_csv(csv_url, cleaner):
 
                 # Write a row to the stream
                 singer.write_record(
