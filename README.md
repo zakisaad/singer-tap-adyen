@@ -14,5 +14,12 @@ This tap:
 - Outputs the schema for each resource
 - Incrementally pulls data based on the input state
 
+Report user
+
+Automatically generate cvs
+
+Customer Area > Account > API credentials.
+
+Download CSV roles
 
 Copyright &copy; 2021 Yoast

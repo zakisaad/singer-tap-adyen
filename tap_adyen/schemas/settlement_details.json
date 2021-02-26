@@ -6,6 +6,10 @@
   ],
   "additionalProperties": false,
   "properties": {
+    "id": {
+      "type": "number",
+      "format": "integer"
+    },
     "company_account": {
       "type": "string"
     },
@@ -47,7 +51,10 @@
       ]
     },
     "gross_currency": {
-      "type": "string"
+      "type": [
+        "null",
+        "string"
+      ]
     },
     "gross_debit": {
       "type": [
@@ -68,7 +75,10 @@
       ]
     },
     "net_currency": {
-      "type": "string"
+      "type": [
+        "null",
+        "string"
+      ]
     },
     "net_debit": {
       "type": [
