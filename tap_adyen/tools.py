@@ -1,7 +1,8 @@
 """Tools."""
 # -*- coding: utf-8 -*-
-from functools import reduce
-from typing import Optional
+
+from datetime import datetime, timedelta
+from typing import Optional, Union
 
 
 def clear_currently_syncing(state: dict) -> dict:
@@ -32,29 +33,28 @@ def get_stream_state(state: dict, tap_stream_id: str) -> dict:
     ).get(tap_stream_id)
 
 
-def retrieve_bookmark_with_path(path: str, row: dict) -> Optional[str]:
-    """Bookmark exists in the row of data which is an dictionary.
-
-    The bookmark can either be a key such as row[key] but also a subkey such as
-    row[key][subkey]. In the streams definition file, the key can be saved as
-    a string, but [key][subkey] cannot. Therefore, in the streams file, if we
-    want to use a subkey as bookmark, we save it in the format 'key.subkey',
-    which is our path in the dictionary.
-    This helper function parses the string and checks whether it has a dot.
-    If it has one, it returns the value of the subkey in the row of data, e.g.
-    row[key][subkey]. If not it returns the alue of the key, e.g row[path].
+def get_bookmark_value(
+    stream_name: str,
+    csv_url: str,
+) -> Optional[Union[str, int]]:
+    """Retrieve bookmark value from the csv url.
 
     Arguments:
-        path {str} -- Path in the dictionary
-        row {dict} -- Data row
+        stream_name {str} -- Stream name
+        csv_url {str} -- Csv url
 
     Returns:
-        Optional[str] -- The value or from the key or subkey
+        Optional[Union[str, int]] -- [description]
     """
-    # If the path has a dot, then parse it as key and subkeys
-    if '.' in path:
-        return str(reduce(dict.get, path.split('.'), row))  # type: ignore
-    # Else if the path is just a key, parse it as a normal key
-    elif path:
-        return row[path]
+    if stream_name in {'dispute_transaction_details', 'payment_accounting'}:
+        # Return the date +1 day
+        return str(
+            datetime.strptime(
+                csv_url.rstrip('.csv').rpartition('_')[2],
+                '%Y_%m_%d',
+            ).date() + timedelta(days=1),
+        )
+    elif stream_name == 'settlement_details':
+        # Return the batch number + 1
+        return int(csv_url.rstrip('.csv').rpartition('_')[2]) + 1
     return None

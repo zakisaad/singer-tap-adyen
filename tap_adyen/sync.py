@@ -70,7 +70,6 @@ def sync(  # noqa: WPS210
             # Retrieve the cleaner function
             cleaner: Optional[Callable] = CLEANERS.get(stream.tap_stream_id)
 
-            bookmark_value: Optional[Union[str, int]] = None
             # Retrieve the csv
             for row in adyen.get_csv(csv_url, cleaner):
 
@@ -80,36 +79,36 @@ def sync(  # noqa: WPS210
                     row,
                     time_extracted=datetime.now(timezone.utc),
                 )
-                # Update bookmark value
-                bookmark_value = tools.retrieve_bookmark_with_path(
-                    stream.replication_key,
-                    row,
-                )
+
+            bookmark: Optional[Union[str, int]] = tools.get_bookmark_value(
+                stream.tap_stream_id,
+                csv_url,
+            )
 
             # Update bookmark
-            update_bookmark(stream, bookmark_value, state)
+            update_bookmark(stream, bookmark, state)
 
 
 def update_bookmark(
     stream: CatalogEntry,
-    bookmark_value: Optional[Union[str, int]],
+    bookmark: Optional[Union[str, int]],
     state: dict,
 ) -> None:
     """Update the bookmark.
 
     Arguments:
         stream {CatalogEntry} -- Stream catalog
-        bookmark_value {Optional[Union[str, int]]} -- Record
+        bookmark {Optional[Union[str, int]]} -- Record
         state {dict} -- State
     """
     # Retrieve the value of the bookmark
-    if bookmark_value:
+    if bookmark:
         # Save the bookmark to the state
         singer.write_bookmark(
             state,
             stream.tap_stream_id,
             STREAMS[stream.tap_stream_id]['bookmark'],
-            bookmark_value,
+            bookmark,
         )
 
     # Clear currently syncing

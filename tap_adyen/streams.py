@@ -255,10 +255,10 @@ def date_parser(input_date: str) -> str:
 # Streams metadata
 STREAMS: MappingProxyType = MappingProxyType({
     'dispute_transaction_details': {
-        'key_properties': 'tbd',
+        'key_properties': 'id',
         'replication_method': 'INCREMENTAL',
-        'replication_key': 'tbd',
-        'bookmark': 'tbd',
+        'replication_key': 'id',
+        'bookmark': 'start_date',
         'mapping': {
             'id': {
                 'map': 'id', 'null': False,
@@ -401,10 +401,10 @@ STREAMS: MappingProxyType = MappingProxyType({
         },
     },
     'payment_accounting': {
-        'key_properties': 'tbd',
+        'key_properties': 'id',
         'replication_method': 'INCREMENTAL',
-        'replication_key': 'tbd',
-        'bookmark': 'tbd',
+        'replication_key': 'id',
+        'bookmark': 'start_date',
         'mapping': {
             'id': {
                 'map': 'id', 'null': False,
