@@ -236,6 +236,14 @@ class Adyen(object):
         return response
 
     def iftest(self, test: bool):
+        """Check what url to use
+
+        Arguments:
+            test {bool} -- value that determines if to use the test environment
+
+        Returns:
+            api url {str} -- url of correct url to use
+        """
         if test is True:
             return API_TEST_URL
         if test is False:
