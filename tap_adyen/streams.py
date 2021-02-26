@@ -354,7 +354,7 @@ STREAMS: MappingProxyType = MappingProxyType({
                 'map': 'shopper_email', 'null': True,
             },
             'Shopper Reference': {
-                'map': 'shopper_referennce', 'null': True,
+                'map': 'shopper_reference', 'null': True,
             },
             'Shopper PAN': {
                 'map': 'shopper_pan', 'null': True,
@@ -384,10 +384,10 @@ STREAMS: MappingProxyType = MappingProxyType({
                 'map': '3d_authentication_response', 'null': True,
             },
             'CVC2 Response': {
-                'map': 'cvc2_response', 'null': True,
+                'map': 'cvc2_response', 'type': int, 'null': True,
             },
             'AVS Response': {
-                'map': 'avs_response', 'null': True,
+                'map': 'avs_response', 'type': int, 'null': True,
             },
             'Dispute Auto Defended': {
                 'map': 'dispute_auto_defended', 'type': bool, 'null': True,
@@ -547,7 +547,7 @@ STREAMS: MappingProxyType = MappingProxyType({
                 'map': 'net_debit', 'type': Decimal, 'null': True,
             },
             'Net Credit (NC)': {
-                'map': 'net_crebit', 'type': Decimal, 'null': True,
+                'map': 'net_credit', 'type': Decimal, 'null': True,
             },
             'Commission (NC)': {
                 'map': 'commission', 'type': Decimal, 'null': True,

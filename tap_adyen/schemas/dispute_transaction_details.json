@@ -60,15 +60,21 @@
 			]
 		},
 		"cb_scheme_code": {
-			"type": "string"
+			"type": [
+				"null",
+				"string"
+			]
 		},
 		"cb_reason_code": {
-			"type": "string"
+			"type": [
+				"null",
+				"string"
+			]
 		},
 		"nof_scheme_code": {
 			"type": [
 				"null",
-				"number"
+				"string"
 			]
 		},
 		"nof_reason_code": {
@@ -98,7 +104,10 @@
 			"type": "string"
 		},
 		"dispute_arn": {
-			"type":	"number"
+			"type":	[
+				"null",
+				"string"
+			]
 		},
 		"user_name": {
 			"type": "string"
@@ -117,10 +126,16 @@
 			"type": "string"
 		},
 		"shopper_reference": {
-			"type": "string"
+			"type": [
+				"null",
+				"string"
+			]
 		},
 		"shopper_pan": {
-			"type": "string"
+			"type": [
+				"null",
+				"string"
+			]
 		},
 		"iban": {
 			"type": [
@@ -147,10 +162,16 @@
 			]
 		},
 		"issuer_country": {
-			"type": "string"
+			"type": [
+				"null",
+				"string"
+			]
 		},
 		"issuer_id": {
-			"type": "string"
+			"type": [
+				"null",
+				"string"
+			]
 		},
 		"3d_directory_response": {
 			"type": [
@@ -165,15 +186,17 @@
 			]
 		},
 		"cvc2_response": {
-			"type": "number"
+			"type": "number",
+			"format": "integer"
 		},
 		"avs_response": {
-			"type": "number"
+			"type": "number",
+			"format": "integer"
 		},
 		"dispute_auto_defended": {
 			"type": [
 				"null",
-				"bool"
+				"boolean"
 			]
 		},
 		"dispute_end_date": {

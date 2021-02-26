@@ -125,13 +125,13 @@
 		"network_token_available": {
 			"type": [
 				"null",
-				"string"
+				"boolean"
 			]
 		},
 		"network_token_used": {
 			"type": [
 				"null",
-				"string"
+				"boolean"
 			]
 		}
 	}

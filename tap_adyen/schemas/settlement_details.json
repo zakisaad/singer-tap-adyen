@@ -51,7 +51,10 @@
       ]
     },
     "gross_currency": {
-      "type": "string"
+      "type": [
+        "null",
+        "string"
+      ]
     },
     "gross_debit": {
       "type": [
