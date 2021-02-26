@@ -1,8 +1,10 @@
 """Tools."""
 # -*- coding: utf-8 -*-
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import Optional, Union
+
+from dateutil.parser import parse as parse_date
 
 
 def clear_currently_syncing(state: dict) -> dict:
@@ -49,9 +51,9 @@ def get_bookmark_value(
     if stream_name in {'dispute_transaction_details', 'payment_accounting'}:
         # Return the date +1 day
         return str(
-            datetime.strptime(
-                csv_url.rstrip('.csv').rpartition('_')[2],
-                '%Y_%m_%d',
+            parse_date(
+                csv_url.rstrip('.csv'),
+                fuzzy=True,
             ).date() + timedelta(days=1),
         )
     elif stream_name == 'settlement_details':

@@ -5,6 +5,8 @@ from datetime import date
 from types import MappingProxyType
 from typing import Any, Optional
 
+from dateutil.parser import parse as parse_date
+
 from tap_adyen.streams import STREAMS
 
 
@@ -93,15 +95,15 @@ def clean_row(row: dict, mapping: dict) -> dict:
 
 def clean_dispute_transaction_details(
     row: dict,
-    file_date: date,
     row_number: int,
+    csv_url: str,
 ) -> dict:
     """Clean dispute transaction details.
 
     Arguments:
         row {dict} -- Input row
-        file_date {date} -- File date, used to construct primary key
         row_number {int} -- Row number, used to construct primary key
+        file_date {str} -- File name, used to construct primary key
 
     Returns:
         dict -- Cleaned row
@@ -110,6 +112,9 @@ def clean_dispute_transaction_details(
     mapping: Optional[dict] = STREAMS['dispute_transaction_details'].get(
         'mapping',
     )
+
+    # Get file date
+    file_date: date = parse_date(csv_url.rstrip('.csv'), fuzzy=True).date()
 
     # Create primary key
     date_string: str = '{date:%Y%m%d}'.format(date=file_date)  # noqa: WPS323
@@ -146,21 +151,24 @@ def clean_dispute_transaction_details(
 
 def clean_payment_accounting(
     row: dict,
-    file_date: date,
     row_number: int,
+    csv_url: str,
 ) -> dict:
     """Clean payment accounting.
 
     Arguments:
         row {dict} -- Input row
-        file_date {date} -- File date, used to construct primary key
         row_number {int} -- Row number, used to construct primary key
+        csv_url {str} -- File name, used to construct primary key
 
     Returns:
         dict -- Cleaned row
     """
     # Get the mapping from the STREAMS
     mapping: Optional[dict] = STREAMS['payment_accounting'].get('mapping')
+
+    # Get file date
+    file_date: date = parse_date(csv_url.rstrip('.csv'), fuzzy=True).date()
 
     # Create primary key
     date_string: str = '{date:%Y%m%d}'.format(date=file_date)  # noqa: WPS323
@@ -181,7 +189,11 @@ def clean_payment_accounting(
     return row
 
 
-def clean_settlement_details(row: dict, row_number: int) -> dict:
+def clean_settlement_details(
+    row: dict,
+    row_number: int,
+    _: str,
+) -> dict:
     """Clean settlement details.
 
     Arguments:
