@@ -1,6 +1,7 @@
 """Sync data."""
 # -*- coding: utf-8 -*-
 import logging
+import sys
 from datetime import datetime, timezone
 from typing import Callable, Optional, Union
 
@@ -79,6 +80,8 @@ def sync(  # noqa: WPS210
                     row,
                     time_extracted=datetime.now(timezone.utc),
                 )
+                sys.stdout.flush()
+                
 
             bookmark: Optional[Union[str, int]] = tools.get_bookmark_value(
                 stream.tap_stream_id,
