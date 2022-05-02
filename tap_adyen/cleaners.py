@@ -114,7 +114,7 @@ def clean_dispute_transaction_details(
     )
 
     # Get file date
-    file_date: date = parse_date(csv_url.rstrip('.csv'), fuzzy=True).date()
+    file_date: date = parse_date(csv_url.rstrip('.csv')[-10], fuzzy=True).date() # clamp end of string
 
     # Create primary key
     date_string: str = '{date:%Y%m%d}'.format(date=file_date)  # noqa: WPS323
@@ -168,7 +168,7 @@ def clean_payment_accounting(
     mapping: Optional[dict] = STREAMS['payment_accounting'].get('mapping')
 
     # Get file date
-    file_date: date = parse_date(csv_url.rstrip('.csv'), fuzzy=True).date()
+    file_date: date = parse_date(csv_url.rstrip('.csv')[-10], fuzzy=True).date() # clamp end of string
 
     # Create primary key
     date_string: str = '{date:%Y%m%d}'.format(date=file_date)  # noqa: WPS323
