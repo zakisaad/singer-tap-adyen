@@ -121,18 +121,6 @@
 				"null",
 				"string"
 			]
-		},
-		"network_token_available": {
-			"type": [
-				"null",
-				"boolean"
-			]
-		},
-		"network_token_used": {
-			"type": [
-				"null",
-				"boolean"
-			]
 		}
 	}
 }
