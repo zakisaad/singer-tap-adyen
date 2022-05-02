@@ -106,9 +106,16 @@ class Adyen(object):  # noqa: WPS230
             )
 
             # Perform a HEAD request on the report url
-            response: httpx._models.Response = (  # noqa: WPS437
-                self._head_request(url)
-            )
+            try:
+                response: httpx._models.Response = (  # noqa: WPS437
+                    self._head_request(url)
+                )
+            except:
+                self.logger.info(
+                    'Died when looking for settlement details reports. Batch: '
+                    f'{date}',
+                )
+                break
 
             # The report with the batch number exists
             if response.status_code == 200:  # noqa: WPS432
@@ -184,9 +191,16 @@ class Adyen(object):  # noqa: WPS230
             )
 
             # Perform a HEAD request on the report url
-            response: httpx._models.Response = (  # noqa: WPS437
-                self._head_request(url)
-            )
+            try:
+                response: httpx._models.Response = (  # noqa: WPS437
+                    self._head_request(url)
+                )
+            except:
+                self.logger.info(
+                    'Died when looking for settlement details reports. Date: '
+                    f'{date}',
+                )
+                break
 
             # The report with the batch number exists
             if response.status_code == 200:  # noqa: WPS432
@@ -258,9 +272,16 @@ class Adyen(object):  # noqa: WPS230
             )
 
             # Perform a HEAD request on the report url
-            response: httpx._models.Response = (  # noqa: WPS437
-                self._head_request(url)
-            )
+            try:
+                response: httpx._models.Response = (  # noqa: WPS437
+                    self._head_request(url)
+                )
+            except:
+                self.logger.info(
+                    'Died when looking for settlement details reports. Batch: '
+                    f'{batch_number}',
+                )
+                break
 
             # The report with the batch number exists
             if response.status_code == 200:  # noqa: WPS432
