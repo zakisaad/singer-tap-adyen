@@ -483,13 +483,7 @@ STREAMS: MappingProxyType = MappingProxyType({
             },
             'Modification Merchant Reference': {
                 'map': 'modification_merchant_reference', 'null': True,
-            },
-            'Network Token Used': {
-                'map': 'network_token_used', 'type': bool, 'null': True,
-            },
-            'Network Token Available': {
-                'map': 'network_token_available', 'type': bool, 'null': True,
-            },
+            }
         },
     },
     'settlement_details': {
