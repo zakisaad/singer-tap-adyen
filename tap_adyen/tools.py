@@ -52,7 +52,7 @@ def get_bookmark_value(
         # Return the date +1 day
         return str(
             parse_date(
-                csv_url.rstrip('.csv'),
+                csv_url.rstrip('.csv')[-10], # clamp end of string
                 fuzzy=True,
             ).date() + timedelta(days=1),
         )
