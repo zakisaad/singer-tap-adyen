@@ -83,9 +83,9 @@ class Adyen(object):  # noqa: WPS230
         parsed_date: datetime = datetime.strptime(start_date, '%Y-%m-%d')
 
         # Replace placeholder in reports path
-        company: str = API_PATH_REPORTS_COMPANY.replace(
-            ':company:',
-            self.company_account,
+        merchant: str = API_PATH_REPORTS_MERCHANT.replace(
+            ':merchant:',
+            self.merchant_account,
         )
 
         # Loop through increasing dates
@@ -101,7 +101,7 @@ class Adyen(object):  # noqa: WPS230
             url: str = (
                 f'{API_SCHEME}{self.base_url}'
                 f'{API_PATH_REPORTS}'
-                f'{company}'
+                f'{merchant}'
                 f'{report}'
             )
 
